@@ -16,7 +16,14 @@ uploaded_file = st.file_uploader("Upload file CSV (kolom: text, label)", type="c
 if uploaded_file:
     # Baca dataset
     df = pd.read_csv(uploaded_file)
-    st.write("Preview Dataset:", df.head())
+
+    # Bersihkan data: drop NaN dan pastikan label berupa string
+    df = df.dropna(subset=['text', 'label'])
+    df['label'] = df['label'].astype(str)
+
+    st.write("Preview Dataset (setelah cleaning):", df.head())
+    st.write("Jumlah data setelah cleaning:", len(df))
+    st.write("Unique labels:", df['label'].unique())
 
     # Split data
     X_train, X_test, y_train, y_test = train_test_split(
@@ -40,7 +47,8 @@ if uploaded_file:
     # Confusion Matrix
     cm = confusion_matrix(y_test, y_pred)
     fig, ax = plt.subplots()
-    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=model.classes_, yticklabels=model.classes_, ax=ax)
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
+                xticklabels=model.classes_, yticklabels=model.classes_, ax=ax)
     st.pyplot(fig)
 
     # Prediksi teks baru
