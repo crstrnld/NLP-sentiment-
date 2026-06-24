@@ -8,12 +8,13 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # Judul aplikasi
-st.title("Sentiment Analysis NLP (Positif/Negatif)")
+st.title("Aplikasi Analisis Sentimen (Positif/Negatif)")
 
-# Upload dataset
-uploaded_file = st.file_uploader("Upload dataset CSV (kolom: text, label)", type="csv")
+# Upload file CSV
+uploaded_file = st.file_uploader("Upload file CSV (kolom: text, label)", type="csv")
 
 if uploaded_file:
+    # Baca dataset
     df = pd.read_csv(uploaded_file)
     st.write("Preview Dataset:", df.head())
 
